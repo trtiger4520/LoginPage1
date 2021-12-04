@@ -13,7 +13,9 @@ const form = reactive({
   memberme: false,
 })
 
-const Login = () => {
+const Login = (e: Event) => {
+  e.preventDefault();
+
   const { username, mima, memberme } = toRefs(form);
   const user = db.UserDB.find(u => u.username == username.value && u.pwd == mima.value);
 
@@ -37,7 +39,7 @@ const Reset = () => {
 <template>
   <div class="container py-5">
     <h1 class="text-center">登入</h1>
-    <form class="login-form" @submit="Login" @reset="Reset">
+    <form class="login-form">
       <div class="mb-3">
         <label for="account" class="form-label">帳號</label>
         <input v-model="form.username" type="text" class="form-control" id="account" aria-describedby="emailHelp">
@@ -50,8 +52,8 @@ const Reset = () => {
         <input v-model="form.memberme" type="checkbox" class="form-check-input" id="memberme">
         <label class="form-check-label" for="memberme">記住我</label>
       </div>
-      <button type="submit" class="btn btn-primary">登入</button>
-      <button type="reset" class="btn btn-text">重設</button>
+      <button type="button" class="btn btn-primary" @click="Login">登入</button>
+      <button type="button" class="btn btn-text" @reset="Reset">重設</button>
     </form>
   </div>
 </template>
